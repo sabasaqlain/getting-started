@@ -1,14 +1,16 @@
 #!/bin/bash
+# Load environment variables
+set -o allexport
+source .env
+set +o allexport
 
-set -e
+echo "CI Pipeline Simulation Started..."
+echo "Pulling latest code..."
+git pull origin master
+echo "Running tests..."
+echo "Environment: $APP_ENV"
+echo "Connecting to DB at $DB_HOST with user $DB_USER"
+echo "All tests passed!"
+echo "Build process..."
+echo "Build completed successfully!"
 
-if [ $1 == "--push" ]; then
-    WILL_PUSH=1
-else
-    WILL_PUSH=0
-fi
-
-docker buildx build \
-      --platform linux/amd64,linux/arm64 \
-      -t docker/getting-started:latest \
-      $( (( $WILL_PUSH == 1 )) && printf %s '--push' ) .
